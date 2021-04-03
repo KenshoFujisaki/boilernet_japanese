@@ -102,5 +102,10 @@ class LeafClassifier(object):
             b_x = tf.dtypes.cast(b_x, 'float32')
 
             y_true.extend(b_y.numpy().flatten())
-            y_pred.extend(np.around(self.model.predict_on_batch(b_x) + 0.4).flatten())
+
+            if b_x.shape[1] == 0:
+                _pred = []
+            else:
+                _pred = np.around(self.model.predict_on_batch(b_x) + 0.4).flatten()
+            y_pred.extend(_pred)
         return y_true, y_pred
